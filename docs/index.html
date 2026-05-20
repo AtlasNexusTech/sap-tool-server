@@ -11,6 +11,11 @@
     --text: #e8e8f0; --muted: #8888a0;
     --purple: #8b5cf6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
   }
+  [data-theme="light"] {
+    --bg: #f8f8fc; --surface: #ffffff; --card: #ffffff; --border: #e2e2e8;
+    --text: #1a1a2e; --muted: #666680;
+    --purple: #7c3aed; --cyan: #0891b2; --green: #059669;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg); color: var(--text);
@@ -28,6 +33,9 @@
     background: linear-gradient(135deg, var(--purple), var(--cyan));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+  .section-title {
+    color: var(--purple); font-weight: 800;
   }
 
   /* ── Components ── */
@@ -147,6 +155,18 @@
     h2 { font-size: 1.5rem; }
     .pricing-card .price { font-size: 1.8rem; }
   }
+
+  /* ── Light mode overrides ── */
+  [data-theme="light"] .hero-gradient {
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(124,58,237,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(8,145,178,0.05) 0%, transparent 70%);
+  }
+  [data-theme="light"] pre.code-block { background: #f0f0f5; color: #1a1a2e; }
+  [data-theme="light"] nav { background: rgba(248,248,252,0.85); }
+  [data-theme="light"] .pricing-card.featured { background: linear-gradient(135deg, #ffffff 0%, #f5f0ff 100%); }
+  [data-theme="light"] .btn-primary { color: white; }
+  [data-theme="light"] .btn-outline:hover { color: var(--purple); }
+  .theme-btn { font-size: 1rem; line-height: 1; }
 </style>
 </head>
 <body>
@@ -155,6 +175,7 @@
   <a href="https://atlasnexus.tech" class="logo">🔮 <span>Atlas</span> Nexus</a>
   <div class="flex-center">
     <span class="badge"><span class="dot green"></span> SAP Mainnet</span>
+    <button class="btn-outline theme-btn" onclick="toggleTheme()" style="padding:8px 16px;font-size:0.85rem;border-radius:8px;cursor:pointer;">☀️</button>
     <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn-outline" style="padding:8px 16px;font-size:0.85rem;border-radius:8px;text-decoration:none;">GitHub</a>
   </div>
 </nav>
@@ -186,7 +207,7 @@
 <section id="pricing">
   <div class="flex-between" style="margin-bottom: 32px;">
     <div>
-      <h2 class="gradient-text">💰 Tool Pricing</h2>
+      <h2 class="section-title">💰 Tool Pricing</h2>
       <p style="color: var(--muted);">Every call earns you the spread between our cost and the selling price.</p>
     </div>
   </div>
@@ -228,7 +249,7 @@
 
 <!-- ═══ HOW IT WORKS ═══ -->
 <section>
-  <h2 class="gradient-text">🔄 How It Works</h2>
+  <h2 class="section-title">🔄 How It Works</h2>
   <p style="color: var(--muted); margin-bottom: 24px;">Every call from another agent flows through 6 steps — fully automated.</p>
   <div class="grid-6">
     <div class="glass" style="text-align:center;">
@@ -260,7 +281,7 @@
 
 <!-- ═══ REVENUE ═══ -->
 <section>
-  <h2 class="gradient-text">📊 Revenue Projections</h2>
+  <h2 class="section-title">📊 Revenue Projections</h2>
   <p style="color: var(--muted); margin-bottom: 16px;">Passive income — scales with SAP adoption. Based on average call mix.</p>
   <div class="glass" style="padding:0;overflow:hidden;">
     <table class="rev">
@@ -276,7 +297,7 @@
 
 <!-- ═══ INTEGRATE ═══ -->
 <section id="integrate">
-  <h2 class="gradient-text">🔌 Integration</h2>
+  <h2 class="section-title">🔌 Integration</h2>
   <p style="color: var(--muted); margin-bottom: 16px;">Any SAP agent can call our tools — one 402 handshake, then the result.</p>
   <pre class="code-block"><span style="color:#6272a4;"># Step 1: Call the tool</span>
 curl -X POST https://your-server.com/tools/acedatacloud-chat \
@@ -304,7 +325,7 @@ curl -X POST https://your-server.com/tools/acedatacloud-chat \
 
 <!-- ═══ SAP INFO ═══ -->
 <section>
-  <h2 class="gradient-text">🔗 SAP Mainnet</h2>
+  <h2 class="section-title">🔗 SAP Mainnet</h2>
   <p style="color: var(--muted); margin-bottom: 16px;">Our tools are live on the Synapse Agent Protocol — discoverable by all autonomous agents on Solana.</p>
   <div class="sap-info-grid">
     <div class="sap-info-item">
@@ -336,7 +357,7 @@ curl -X POST https://your-server.com/tools/acedatacloud-chat \
 
 <!-- ═══ DEPLOY ═══ -->
 <section>
-  <h2 class="gradient-text">🚀 Deploy Your Own</h2>
+  <h2 class="section-title">🚀 Deploy Your Own</h2>
   <p style="color: var(--muted); margin-bottom: 16px;">Clone, configure, and run in under 2 minutes.</p>
   <pre class="code-block">git clone https://github.com/AtlasNexusTech/sap-tool-server.git
 cd sap-tool-server
@@ -359,5 +380,23 @@ python server.py        <span style="color:#6272a4;"># → http://localhost:8000
   <a href="https://atlasnexus.tech">atlasnexus.tech</a>
 </footer>
 
+<script>
+const saved = localStorage.getItem('sap-tools-theme');
+if (saved === 'light') {
+  document.documentElement.dataset.theme = 'light';
+  document.querySelector('.theme-btn').textContent = '🌙';
+}
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-btn');
+  if (html.dataset.theme === 'light') {
+    html.dataset.theme = 'dark'; btn.textContent = '☀️';
+    localStorage.setItem('sap-tools-theme', 'dark');
+  } else {
+    html.dataset.theme = 'light'; btn.textContent = '🌙';
+    localStorage.setItem('sap-tools-theme', 'light');
+  }
+}
+</script>
 </body>
 </html>
