@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Tool Server — Atlas Nexus</title>
+<style>
+  :root {
+    --bg: #08080f;
+    --card: #111118;
+    --card2: #16162a;
+    --border: #1e1e2e;
+    --text: #e0e0e0;
+    --text-dim: #888;
+    --accent: #a855f7;
+    --accent2: #7c3aed;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --radius: 14px;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  [data-theme="light"] {
+    --bg: #f8f8fc;
+    --card: #ffffff;
+    --card2: #f0f0f5;
+    --border: #e2e2e8;
+    --text: #1a1a2e;
+    --text-dim: #666;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.4s, color 0.4s;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 {
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .theme-btn {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); padding: 0.4rem 1rem; border-radius: 8px;
+    cursor: pointer; font-size: 0.85rem;
+  }
+  .theme-btn:hover { border-color: var(--accent); }
+
+  .hero {
+    text-align: center; padding: 4rem 2rem;
+    max-width: 800px; margin: 0 auto;
+  }
+  .hero h2 {
+    font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem; }
+  .btn {
+    display: inline-block; padding: 0.7rem 1.8rem;
+    background: var(--accent); color: #fff;
+    border-radius: 10px; text-decoration: none; font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.3); }
+  .btn-ghost {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text); margin-left: 0.8rem;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+  section h3 {
+    font-size: 1.5rem; margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--accent), #6366f1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .pricing-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.8rem;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .pricing-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .pricing-card.featured { border-color: var(--accent); border-width: 2px; }
+  .tool-name {
+    font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;
+    font-family: monospace; color: var(--accent);
+  }
+  .tool-desc { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.2rem; min-height: 40px; }
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .price-sell { font-size: 2rem; font-weight: 700; color: var(--text); }
+  .price-sell small { font-size: 0.9rem; color: var(--text-dim); }
+  .price-cost { color: var(--text-dim); font-size: 0.85rem; }
+  .margin-badge {
+    display: inline-block; background: #22c55e20; color: var(--green);
+    padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-top: 0.5rem;
+  }
+
+  .flow-steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem; margin-top: 1rem;
+  }
+  .flow-step {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.2rem; text-align: center;
+  }
+  .flow-num {
+    font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem;
+  }
+  .flow-text { font-size: 0.85rem; color: var(--text-dim); }
+
+  .revenue-table {
+    width: 100%; border-collapse: collapse; margin-top: 1rem;
+  }
+  .revenue-table th, .revenue-table td {
+    padding: 0.7rem 1rem; text-align: left; border-bottom: 1px solid var(--border);
+  }
+  .revenue-table th { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
+  .revenue-table td { font-size: 0.95rem; }
+  .rev-highlight { color: var(--green); font-weight: 600; }
+
+  .code-block {
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.2rem; overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+  }
+
+  .sap-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--card2); border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem;
+    font-family: monospace;
+  }
+  .sap-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+
+  footer {
+    text-align: center; padding: 2rem; color: var(--text-dim);
+    font-size: 0.8rem; border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔮 SAP Tool Server</h1>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <span class="sap-badge"><span class="dot"></span> SAP Mainnet</span>
+    <button class="theme-btn" onclick="toggleTheme()">☀️ Light</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Autonomous Agent Tools.<br>Monetized on SAP.</h2>
+  <p>Publish AI tools on the Synapse Agent Protocol. Other agents pay via x402. You earn the spread — 24/7, fully autonomous.</p>
+  <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn">View on GitHub</a>
+  <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+</section>
+
+<section id="pricing">
+  <h3>💰 Tool Pricing</h3>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="tool-name">acedatacloud-search</div>
+      <div class="tool-desc">Google web search for crypto, DeFi, and market intelligence queries.</div>
+      <div class="price-row">
+        <span class="price-sell">$0.05<small>/call</small></span>
+        <span class="price-cost">cost: $0.03</span>
+      </div>
+      <span class="margin-badge">+67% margin</span>
+    </div>
+    <div class="pricing-card featured">
+      <div class="tool-name">acedatacloud-chat</div>
+      <div class="tool-desc">GPT-4o-mini AI analysis — structured intelligence with confidence scoring.</div>
+      <div class="price-row">
+        <span class="price-sell">$0.10<small>/call</small></span>
+        <span class="price-cost">cost: $0.06</span>
+      </div>
+      <span class="margin-badge">+67% margin</span>
+    </div>
+    <div class="pricing-card">
+      <div class="tool-name">acedatacloud-images</div>
+      <div class="tool-desc">AI image generation — charts, infographics, and creative assets.</div>
+      <div class="price-row">
+        <span class="price-sell">$0.01<small>/call</small></span>
+        <span class="price-cost">cost: $0.005</span>
+      </div>
+      <span class="margin-badge">+100% margin</span>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <h3>🔄 How It Works</h3>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-text">Agent discovers tool on SAP Explorer</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-text">POSTs request to our endpoint</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-text">We respond 402 Payment Required</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-text">Agent pays via x402 (Solana USDC)</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-text">We proxy to AceDataCloud</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-text">💰 We keep the spread</div>
+    </div>
+  </div>
+</section>
+
+<section id="projections">
+  <h3>📊 Revenue Projections</h3>
+  <table class="revenue-table">
+    <tr><th>Agents using tools</th><th>Calls/day</th><th>Daily</th><th>Monthly</th></tr>
+    <tr><td>1 agent</td><td>10</td><td>$0.65</td><td>$19.50</td></tr>
+    <tr><td>5 agents</td><td>50</td><td>$3.25</td><td>$97.50</td></tr>
+    <tr><td>10 agents</td><td>100</td><td>$6.50</td><td class="rev-highlight">$195.00</td></tr>
+    <tr><td>50 agents</td><td>500</td><td>$32.50</td><td class="rev-highlight">$975.00</td></tr>
+  </table>
+</section>
+
+<section id="integrate">
+  <h3>🔌 Integration</h3>
+  <p style="color:var(--text-dim);margin-bottom:1rem;">Example: calling our search tool from any SAP agent</p>
+  <div class="code-block">
+    <pre>curl -X POST https://your-server.com/tools/acedatacloud-search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Solana DeFi trends 2026"}'
+
+← 402 Payment Required
+→ {"amount_usdc": 0.05, "receiver": "45Y2ShED...", "protocol": "x402"}
+
+# Sign + resend with payment proof
+curl -X POST https://your-server.com/tools/acedatacloud-search \
+  -H "X-Payment-Signature: &lt;solana_sig&gt;" \
+  -d '{"query": "Solana DeFi trends 2026"}'
+
+← 200 OK
+→ {"results": [...], "price_usdc": 0.05, "timestamp": "..."}</pre>
+  </div>
+</section>
+
+<section id="sap">
+  <h3>🔗 SAP Mainnet</h3>
+  <p style="color:var(--text-dim);margin-bottom:1rem;">
+    Our tools are live on the Synapse Agent Protocol — discoverable by all autonomous agents on Solana.
+  </p>
+  <div style="display:flex;flex-wrap:wrap;gap:0.8rem;">
+    <span class="sap-badge">Agent: FHTLFvsLijuvknHJSKwjf...</span>
+    <span class="sap-badge">Program: SAPpUhsWLJG1FfkGRcXa...</span>
+    <span class="sap-badge">Wallet: 45Y2ShED3GyPQEhfaPq6...</span>
+    <span class="sap-badge">Staked: 0.1 SOL</span>
+    <span class="sap-badge">Tools: 8 published</span>
+  </div>
+</section>
+
+<footer>
+  🔮 Atlas Nexus · <a href="https://github.com/AtlasNexusTech">GitHub</a> ·
+  <a href="https://atlasnexus.tech">atlasnexus.tech</a> ·
+  Built on OOBE Protocol × AceDataCloud × Solana
+</footer>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-btn');
+  if (html.dataset.theme === 'dark') {
+    html.dataset.theme = 'light'; btn.textContent = '🌙 Dark';
+    localStorage.setItem('sap-tools-theme', 'light');
+  } else {
+    html.dataset.theme = 'dark'; btn.textContent = '☀️ Light';
+    localStorage.setItem('sap-tools-theme', 'dark');
+  }
+}
+const saved = localStorage.getItem('sap-tools-theme');
+if (saved === 'light') {
+  document.documentElement.dataset.theme = 'light';
+  document.querySelector('.theme-btn').textContent = '🌙 Dark';
+}
+</script>
+</body>
+</html>

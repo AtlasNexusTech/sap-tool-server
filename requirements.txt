@@ -1,0 +1,5 @@
+fastapi>=0.115
+uvicorn>=0.30
+acedatacloud>=2024.0.0
+acedatacloud-x402>=0.1.0
+python-dotenv>=1.0
