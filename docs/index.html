@@ -1,307 +1,363 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAP Tool Server — Atlas Nexus</title>
+<title>SAP Tool Server — Atlas Nexus | x402 Tools · Revenue-Generating</title>
+<meta name="description" content="Reverse proxy for AceDataCloud tools with x402 payments and built-in profit margin. Published on SAP mainnet. 3 tools, 67-100% markup, passive revenue.">
 <style>
   :root {
-    --bg: #08080f;
-    --card: #111118;
-    --card2: #16162a;
-    --border: #1e1e2e;
-    --text: #e0e0e0;
-    --text-dim: #888;
-    --accent: #a855f7;
-    --accent2: #7c3aed;
-    --green: #22c55e;
-    --yellow: #eab308;
-    --radius: 14px;
-    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --bg: #0a0a0f; --surface: #111118; --card: #16161f; --border: #222232;
+    --text: #e8e8f0; --muted: #8888a0;
+    --purple: #8b5cf6; --cyan: #06b6d4; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
   }
-  [data-theme="light"] {
-    --bg: #f8f8fc;
-    --card: #ffffff;
-    --card2: #f0f0f5;
-    --border: #e2e2e8;
-    --text: #1a1a2e;
-    --text-dim: #666;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
     line-height: 1.6;
-    transition: background 0.4s, color 0.4s;
   }
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 1.2rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    backdrop-filter: blur(12px);
-    position: sticky; top: 0; z-index: 10;
+  section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+
+  /* ── Hero ── */
+  .hero-gradient {
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(139,92,246,0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(6,182,212,0.08) 0%, transparent 70%);
   }
-  header h1 {
-    font-size: 1.3rem;
-    background: linear-gradient(135deg, var(--accent), #6366f1);
+  .gradient-text {
+    background: linear-gradient(135deg, var(--purple), var(--cyan));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .theme-btn {
+
+  /* ── Components ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--green);
+  }
+  .badge.purple { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: var(--purple); }
+  .badge.cyan { background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.3); color: var(--cyan); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot.green { background: var(--green); }
+  .dot.purple { background: var(--purple); }
+  .dot.cyan { background: var(--cyan); }
+
+  .glass {
     background: var(--card); border: 1px solid var(--border);
-    color: var(--text); padding: 0.4rem 1rem; border-radius: 8px;
-    cursor: pointer; font-size: 0.85rem;
-  }
-  .theme-btn:hover { border-color: var(--accent); }
-
-  .hero {
-    text-align: center; padding: 4rem 2rem;
-    max-width: 800px; margin: 0 auto;
-  }
-  .hero h2 {
-    font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--accent), #6366f1);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .hero p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem; }
-  .btn {
-    display: inline-block; padding: 0.7rem 1.8rem;
-    background: var(--accent); color: #fff;
-    border-radius: 10px; text-decoration: none; font-weight: 600;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.3); }
-  .btn-ghost {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--text); margin-left: 0.8rem;
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  section { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
-  section h3 {
-    font-size: 1.5rem; margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, var(--accent), #6366f1);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-
-  .pricing-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.2rem;
-  }
-  .pricing-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.8rem;
+    border-radius: 14px; padding: 24px;
     transition: border-color 0.3s, transform 0.2s;
   }
-  .pricing-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
-  .pricing-card.featured { border-color: var(--accent); border-width: 2px; }
-  .tool-name {
-    font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;
-    font-family: monospace; color: var(--accent);
+  .glass:hover { border-color: var(--purple); transform: translateY(-2px); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 12px; font-weight: 600;
+    text-decoration: none; cursor: pointer; transition: all 0.2s; font-size: 0.95rem;
   }
-  .tool-desc { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.2rem; min-height: 40px; }
-  .price-row { display: flex; justify-content: space-between; align-items: baseline; }
-  .price-sell { font-size: 2rem; font-weight: 700; color: var(--text); }
-  .price-sell small { font-size: 0.9rem; color: var(--text-dim); }
-  .price-cost { color: var(--text-dim); font-size: 0.85rem; }
-  .margin-badge {
-    display: inline-block; background: #22c55e20; color: var(--green);
-    padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; margin-top: 0.5rem;
+  .btn-primary { background: var(--purple); color: white; box-shadow: 0 0 20px rgba(139,92,246,0.25); }
+  .btn-primary:hover { background: #7c3aed; transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+
+  pre.code-block {
+    background: #0d0d14; border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px; overflow-x: auto; font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px; line-height: 1.6; color: #c9d1d9;
   }
 
-  .flow-steps {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.8rem; margin-top: 1rem;
-  }
-  .flow-step {
+  .step-num { font-size: 2.5rem; font-weight: 900; color: var(--purple); line-height: 1; }
+
+  h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; line-height: 1.05; }
+  h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 12px; }
+  h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+
+  /* ── Layout ── */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+
+  .flex-center { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+
+  /* ── Pricing ── */
+  .pricing-card {
     background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.2rem; text-align: center;
+    border-radius: 14px; padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.2s;
+    position: relative;
   }
-  .flow-num {
-    font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem;
-  }
-  .flow-text { font-size: 0.85rem; color: var(--text-dim); }
-
-  .revenue-table {
-    width: 100%; border-collapse: collapse; margin-top: 1rem;
-  }
-  .revenue-table th, .revenue-table td {
-    padding: 0.7rem 1rem; text-align: left; border-bottom: 1px solid var(--border);
-  }
-  .revenue-table th { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
-  .revenue-table td { font-size: 0.95rem; }
-  .rev-highlight { color: var(--green); font-weight: 600; }
-
-  .code-block {
-    background: var(--card2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.2rem; overflow-x: auto;
-    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+  .pricing-card:hover { border-color: var(--purple); transform: translateY(-3px); }
+  .pricing-card.featured { border-color: var(--purple); border-width: 2px; background: linear-gradient(135deg, #16161f 0%, #1a1028 100%); }
+  .pricing-card .tool-name { font-family: 'SF Mono', monospace; color: var(--purple); font-size: 1rem; font-weight: 600; }
+  .pricing-card .price { font-size: 2.4rem; font-weight: 800; color: var(--text); margin: 8px 0; }
+  .pricing-card .price small { font-size: 1rem; color: var(--muted); font-weight: 400; }
+  .pricing-card .cost { color: var(--muted); font-size: 0.85rem; }
+  .margin-tag {
+    display: inline-block; background: rgba(16,185,129,0.15); color: var(--green);
+    padding: 3px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-top: 6px;
   }
 
-  .sap-badge {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    background: var(--card2); border: 1px solid var(--border);
-    padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem;
-    font-family: monospace;
+  /* ── Revenue Table ── */
+  table.rev {
+    width: 100%; border-collapse: collapse; margin-top: 16px;
   }
-  .sap-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  table.rev th, table.rev td {
+    padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+  }
+  table.rev th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  table.rev td { font-size: 0.95rem; }
+  table.rev tr:hover td { background: rgba(139,92,246,0.04); }
+  .rev-highlight { color: var(--green); font-weight: 700; }
+  .rev-best { color: var(--purple); font-weight: 700; }
 
+  /* ── SAP Info ── */
+  .sap-info-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;
+    margin-top: 16px;
+  }
+  .sap-info-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+  }
+  .sap-info-item .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .sap-info-item .value { font-family: 'SF Mono', monospace; font-size: 0.85rem; color: var(--text); word-break: break-all; }
+  .sap-info-item .value a { color: var(--cyan); text-decoration: none; }
+
+  /* ── Footer ── */
   footer {
-    text-align: center; padding: 2rem; color: var(--text-dim);
-    font-size: 0.8rem; border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border); padding: 32px 24px;
+    text-align: center; color: var(--muted); font-size: 0.85rem;
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  footer a { color: var(--purple); text-decoration: none; }
+
+  /* ── Nav ── */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10;
+    background: rgba(10,10,15,0.8);
+  }
+  nav .logo { font-weight: 700; font-size: 1.05rem; color: var(--text); text-decoration: none; }
+  nav .logo span { color: var(--purple); }
+
+  @media (max-width: 768px) {
+    section { padding: 48px 16px; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    .pricing-card .price { font-size: 1.8rem; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🔮 SAP Tool Server</h1>
-  <div style="display:flex;align-items:center;gap:1rem;">
-    <span class="sap-badge"><span class="dot"></span> SAP Mainnet</span>
-    <button class="theme-btn" onclick="toggleTheme()">☀️ Light</button>
+<nav>
+  <a href="https://atlasnexus.tech" class="logo">🔮 <span>Atlas</span> Nexus</a>
+  <div class="flex-center">
+    <span class="badge"><span class="dot green"></span> SAP Mainnet</span>
+    <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn-outline" style="padding:8px 16px;font-size:0.85rem;border-radius:8px;text-decoration:none;">GitHub</a>
   </div>
-</header>
+</nav>
 
-<section class="hero">
-  <h2>Autonomous Agent Tools.<br>Monetized on SAP.</h2>
-  <p>Publish AI tools on the Synapse Agent Protocol. Other agents pay via x402. You earn the spread — 24/7, fully autonomous.</p>
-  <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn">View on GitHub</a>
-  <a href="#pricing" class="btn btn-ghost">See Pricing</a>
+<!-- ═══ HERO ═══ -->
+<section class="hero-gradient" style="min-height: 80vh; display: flex; align-items: center;">
+  <div>
+    <div class="badge purple" style="margin-bottom: 20px;"><span class="dot purple"></span> Revenue-Generating Agent Infrastructure</div>
+    <h1 style="margin-bottom: 16px;">SAP Tools<br><span class="gradient-text">That Earn Money</span></h1>
+    <p style="font-size: 1.15rem; color: var(--muted); margin-bottom: 12px; max-width: 600px;">
+      Reverse proxy for AceDataCloud services with built-in x402 markup.
+      Other agents pay to use your tools — you keep the spread. 24/7, fully autonomous.
+    </p>
+    <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 32px; max-width: 560px;">
+      Published on Synapse Agent Protocol mainnet. 3 tools. 67–100% margin.
+    </p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn btn-primary" target="_blank">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="#pricing" class="btn btn-outline" style="color:var(--text);text-decoration:none;">See Pricing →</a>
+      <a href="#integrate" class="btn btn-outline" style="color:var(--text);text-decoration:none;">API Docs →</a>
+    </div>
+  </div>
 </section>
 
+<!-- ═══ PRICING ═══ -->
 <section id="pricing">
-  <h3>💰 Tool Pricing</h3>
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="tool-name">acedatacloud-search</div>
-      <div class="tool-desc">Google web search for crypto, DeFi, and market intelligence queries.</div>
-      <div class="price-row">
-        <span class="price-sell">$0.05<small>/call</small></span>
-        <span class="price-cost">cost: $0.03</span>
-      </div>
-      <span class="margin-badge">+67% margin</span>
+  <div class="flex-between" style="margin-bottom: 32px;">
+    <div>
+      <h2 class="gradient-text">💰 Tool Pricing</h2>
+      <p style="color: var(--muted);">Every call earns you the spread between our cost and the selling price.</p>
     </div>
+  </div>
+  <div class="grid-3">
+    <div class="pricing-card">
+      <div class="flex-between" style="margin-bottom:12px;">
+        <span class="tool-name">acedatacloud-search</span>
+        <span class="badge cyan" style="font-size:11px;">Search API</span>
+      </div>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:16px;min-height:40px;">Google web search — crypto, DeFi, market intelligence queries.</p>
+      <div class="price">$0.05<small>/call</small></div>
+      <div class="cost" style="margin-bottom:8px;">Our cost: $0.03</div>
+      <span class="margin-tag">+67% margin</span>
+    </div>
+
     <div class="pricing-card featured">
-      <div class="tool-name">acedatacloud-chat</div>
-      <div class="tool-desc">GPT-4o-mini AI analysis — structured intelligence with confidence scoring.</div>
-      <div class="price-row">
-        <span class="price-sell">$0.10<small>/call</small></span>
-        <span class="price-cost">cost: $0.06</span>
+      <div class="flex-between" style="margin-bottom:12px;">
+        <span class="tool-name">acedatacloud-chat</span>
+        <span class="badge purple" style="font-size:11px;">AI Analysis</span>
       </div>
-      <span class="margin-badge">+67% margin</span>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:16px;min-height:40px;">GPT-4o-mini AI analysis — structured intelligence with confidence scoring.</p>
+      <div class="price">$0.10<small>/call</small></div>
+      <div class="cost" style="margin-bottom:8px;">Our cost: $0.06</div>
+      <span class="margin-tag">+67% margin</span>
     </div>
+
     <div class="pricing-card">
-      <div class="tool-name">acedatacloud-images</div>
-      <div class="tool-desc">AI image generation — charts, infographics, and creative assets.</div>
-      <div class="price-row">
-        <span class="price-sell">$0.01<small>/call</small></span>
-        <span class="price-cost">cost: $0.005</span>
+      <div class="flex-between" style="margin-bottom:12px;">
+        <span class="tool-name">acedatacloud-images</span>
+        <span class="badge" style="font-size:11px;">Image Gen</span>
       </div>
-      <span class="margin-badge">+100% margin</span>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:16px;min-height:40px;">AI image generation — charts, infographics, creative assets.</p>
+      <div class="price">$0.01<small>/call</small></div>
+      <div class="cost" style="margin-bottom:8px;">Our cost: $0.005</div>
+      <span class="margin-tag">+100% margin</span>
     </div>
   </div>
 </section>
 
-<section id="how">
-  <h3>🔄 How It Works</h3>
-  <div class="flow-steps">
-    <div class="flow-step">
-      <div class="flow-num">1</div>
-      <div class="flow-text">Agent discovers tool on SAP Explorer</div>
+<!-- ═══ HOW IT WORKS ═══ -->
+<section>
+  <h2 class="gradient-text">🔄 How It Works</h2>
+  <p style="color: var(--muted); margin-bottom: 24px;">Every call from another agent flows through 6 steps — fully automated.</p>
+  <div class="grid-6">
+    <div class="glass" style="text-align:center;">
+      <div class="step-num">1</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Agent discovers tool on SAP Explorer</p>
     </div>
-    <div class="flow-step">
-      <div class="flow-num">2</div>
-      <div class="flow-text">POSTs request to our endpoint</div>
+    <div class="glass" style="text-align:center;">
+      <div class="step-num">2</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">POSTs request to our endpoint</p>
     </div>
-    <div class="flow-step">
-      <div class="flow-num">3</div>
-      <div class="flow-text">We respond 402 Payment Required</div>
+    <div class="glass" style="text-align:center;">
+      <div class="step-num">3</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">402 Payment Required — $0.05–$0.10</p>
     </div>
-    <div class="flow-step">
-      <div class="flow-num">4</div>
-      <div class="flow-text">Agent pays via x402 (Solana USDC)</div>
+    <div class="glass" style="text-align:center;">
+      <div class="step-num">4</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Agent pays via x402 (Solana USDC)</p>
     </div>
-    <div class="flow-step">
-      <div class="flow-num">5</div>
-      <div class="flow-text">We proxy to AceDataCloud</div>
+    <div class="glass" style="text-align:center;">
+      <div class="step-num">5</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">We proxy to AceDataCloud</p>
     </div>
-    <div class="flow-step">
-      <div class="flow-num">6</div>
-      <div class="flow-text">💰 We keep the spread</div>
+    <div class="glass" style="text-align:center;">
+      <div class="step-num" style="color:var(--green);">6</div>
+      <p style="font-size:0.85rem;color:var(--green);margin-top:8px;">💰 Profit: $0.02–$0.04</p>
     </div>
   </div>
 </section>
 
-<section id="projections">
-  <h3>📊 Revenue Projections</h3>
-  <table class="revenue-table">
-    <tr><th>Agents using tools</th><th>Calls/day</th><th>Daily</th><th>Monthly</th></tr>
-    <tr><td>1 agent</td><td>10</td><td>$0.65</td><td>$19.50</td></tr>
-    <tr><td>5 agents</td><td>50</td><td>$3.25</td><td>$97.50</td></tr>
-    <tr><td>10 agents</td><td>100</td><td>$6.50</td><td class="rev-highlight">$195.00</td></tr>
-    <tr><td>50 agents</td><td>500</td><td>$32.50</td><td class="rev-highlight">$975.00</td></tr>
-  </table>
+<!-- ═══ REVENUE ═══ -->
+<section>
+  <h2 class="gradient-text">📊 Revenue Projections</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">Passive income — scales with SAP adoption. Based on average call mix.</p>
+  <div class="glass" style="padding:0;overflow:hidden;">
+    <table class="rev">
+      <tr><th>Agents using tools</th><th>Calls/day</th><th>Daily Revenue</th><th>Monthly Revenue</th><th>Annual</th></tr>
+      <tr><td>1 agent</td><td>10</td><td>$0.55</td><td>$16.50</td><td>$198</td></tr>
+      <tr><td>5 agents</td><td>50</td><td>$2.75</td><td>$82.50</td><td>$990</td></tr>
+      <tr><td>10 agents</td><td>100</td><td>$5.50</td><td class="rev-highlight">$165.00</td><td>$1,980</td></tr>
+      <tr><td>50 agents</td><td>500</td><td>$27.50</td><td class="rev-highlight">$825.00</td><td class="rev-best">$9,900</td></tr>
+      <tr><td>200 agents</td><td>2,000</td><td>$110.00</td><td class="rev-best">$3,300.00</td><td class="rev-best">$39,600</td></tr>
+    </table>
+  </div>
 </section>
 
+<!-- ═══ INTEGRATE ═══ -->
 <section id="integrate">
-  <h3>🔌 Integration</h3>
-  <p style="color:var(--text-dim);margin-bottom:1rem;">Example: calling our search tool from any SAP agent</p>
-  <div class="code-block">
-    <pre>curl -X POST https://your-server.com/tools/acedatacloud-search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "Solana DeFi trends 2026"}'
+  <h2 class="gradient-text">🔌 Integration</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">Any SAP agent can call our tools — one 402 handshake, then the result.</p>
+  <pre class="code-block"><span style="color:#6272a4;"># Step 1: Call the tool</span>
+curl -X POST https://your-server.com/tools/acedatacloud-chat \
+  -H <span style="color:#a5d6ff;">"Content-Type: application/json"</span> \
+  -d <span style="color:#a5d6ff;">'{"prompt": "Analyze Solana DeFi trends 2026"}'</span>
 
-← 402 Payment Required
-→ {"amount_usdc": 0.05, "receiver": "45Y2ShED...", "protocol": "x402"}
+<span style="color:#6272a4;">← 402 Payment Required</span>
+<span style="color:#ff79c6;">{</span>
+  <span style="color:#a5d6ff;">"amount_usdc"</span>: <span style="color:#50fa7b;">0.10</span>,
+  <span style="color:#a5d6ff;">"receiver"</span>: <span style="color:#a5d6ff;">"45Y2ShED3GyPQEhfaPq68Z..."</span>,
+  <span style="color:#a5d6ff;">"protocol"</span>: <span style="color:#a5d6ff;">"x402"</span>
+<span style="color:#ff79c6;">}</span>
 
-# Sign + resend with payment proof
-curl -X POST https://your-server.com/tools/acedatacloud-search \
-  -H "X-Payment-Signature: &lt;solana_sig&gt;" \
-  -d '{"query": "Solana DeFi trends 2026"}'
+<span style="color:#6272a4;"># Step 2: Pay via Solana, resend with proof</span>
+curl -X POST https://your-server.com/tools/acedatacloud-chat \
+  -H <span style="color:#a5d6ff;">"X-Payment-Signature: &lt;solana_sig&gt;"</span> \
+  -d <span style="color:#a5d6ff;">'{"prompt": "Analyze Solana DeFi trends 2026"}'</span>
 
-← 200 OK
-→ {"results": [...], "price_usdc": 0.05, "timestamp": "..."}</pre>
+<span style="color:#6272a4;">← 200 OK</span>
+<span style="color:#ff79c6;">{</span>
+  <span style="color:#a5d6ff;">"analysis"</span>: <span style="color:#a5d6ff;">"Solana DeFi in 2026 shows..."</span>,
+  <span style="color:#a5d6ff;">"price_usdc"</span>: <span style="color:#50fa7b;">0.10</span>
+<span style="color:#ff79c6;">}</span></pre>
+</section>
+
+<!-- ═══ SAP INFO ═══ -->
+<section>
+  <h2 class="gradient-text">🔗 SAP Mainnet</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">Our tools are live on the Synapse Agent Protocol — discoverable by all autonomous agents on Solana.</p>
+  <div class="sap-info-grid">
+    <div class="sap-info-item">
+      <div class="label">Agent PDA</div>
+      <div class="value"><a href="https://solscan.io/account/FHTLFvsLijuvknHJSKwjfLGXFCV8a2X1cvMHJUEuTeer" target="_blank">FHTLFvsLijuvknHJSKwjf...</a></div>
+    </div>
+    <div class="sap-info-item">
+      <div class="label">Program</div>
+      <div class="value">SAPpUhsWLJG1FfkGRcXagEDMrMsWGjbky7AyhGpFETZ</div>
+    </div>
+    <div class="sap-info-item">
+      <div class="label">Wallet (Revenue)</div>
+      <div class="value"><a href="https://solscan.io/account/45Y2ShED3GyPQEhfaPq68Z6GAmdDtVh5Qrt9WjCDCadt" target="_blank">45Y2ShED3GyPQEhfaPq6...</a></div>
+    </div>
+    <div class="sap-info-item">
+      <div class="label">Tools Published</div>
+      <div class="value" style="color:var(--green);">8 (3 AceDataCloud + 5 Seedance)</div>
+    </div>
+    <div class="sap-info-item">
+      <div class="label">Stake</div>
+      <div class="value">0.1 SOL</div>
+    </div>
+    <div class="sap-info-item">
+      <div class="label">Status</div>
+      <div class="value" style="color:var(--green);">● Active</div>
+    </div>
   </div>
 </section>
 
-<section id="sap">
-  <h3>🔗 SAP Mainnet</h3>
-  <p style="color:var(--text-dim);margin-bottom:1rem;">
-    Our tools are live on the Synapse Agent Protocol — discoverable by all autonomous agents on Solana.
-  </p>
-  <div style="display:flex;flex-wrap:wrap;gap:0.8rem;">
-    <span class="sap-badge">Agent: FHTLFvsLijuvknHJSKwjf...</span>
-    <span class="sap-badge">Program: SAPpUhsWLJG1FfkGRcXa...</span>
-    <span class="sap-badge">Wallet: 45Y2ShED3GyPQEhfaPq6...</span>
-    <span class="sap-badge">Staked: 0.1 SOL</span>
-    <span class="sap-badge">Tools: 8 published</span>
+<!-- ═══ DEPLOY ═══ -->
+<section>
+  <h2 class="gradient-text">🚀 Deploy Your Own</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">Clone, configure, and run in under 2 minutes.</p>
+  <pre class="code-block">git clone https://github.com/AtlasNexusTech/sap-tool-server.git
+cd sap-tool-server
+pip install -r requirements.txt
+cp .env.example .env  <span style="color:#6272a4;"># add SOLANA_PRIVATE_KEY_BASE58</span>
+python server.py        <span style="color:#6272a4;"># → http://localhost:8000 · Swagger at /docs</span></pre>
+  <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="https://github.com/AtlasNexusTech/sap-tool-server" class="btn btn-primary" target="_blank">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      View on GitHub
+    </a>
+    <a href="https://atlasnexus.tech" class="btn btn-outline" style="color:var(--text);text-decoration:none;">← Atlas Nexus</a>
   </div>
 </section>
 
 <footer>
-  🔮 Atlas Nexus · <a href="https://github.com/AtlasNexusTech">GitHub</a> ·
-  <a href="https://atlasnexus.tech">atlasnexus.tech</a> ·
-  Built on OOBE Protocol × AceDataCloud × Solana
+  🔮 <strong>Atlas Nexus</strong> — Autonomous agent infrastructure<br>
+  <span style="color:var(--muted);">Built on OOBE Protocol Synapse × AceDataCloud × x402 × Solana</span><br>
+  <a href="https://github.com/AtlasNexusTech">GitHub</a> ·
+  <a href="https://atlasnexus.tech">atlasnexus.tech</a>
 </footer>
 
-<script>
-function toggleTheme() {
-  const html = document.documentElement;
-  const btn = document.querySelector('.theme-btn');
-  if (html.dataset.theme === 'dark') {
-    html.dataset.theme = 'light'; btn.textContent = '🌙 Dark';
-    localStorage.setItem('sap-tools-theme', 'light');
-  } else {
-    html.dataset.theme = 'dark'; btn.textContent = '☀️ Light';
-    localStorage.setItem('sap-tools-theme', 'dark');
-  }
-}
-const saved = localStorage.getItem('sap-tools-theme');
-if (saved === 'light') {
-  document.documentElement.dataset.theme = 'light';
-  document.querySelector('.theme-btn').textContent = '🌙 Dark';
-}
-</script>
 </body>
 </html>
