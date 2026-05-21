@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sap-tool-server
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      - key: SOLANA_PRIVATE_KEY_BASE58
+        sync: false
+      - key: ACE_API_KEY
+        sync: false
